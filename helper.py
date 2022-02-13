@@ -7,6 +7,7 @@ def plot_model_evaluation(hist):
 
     Plots loss and accuracy curves in separated charts. Assumes that validation sample was used.
     '''
+    from matplotlib import pyplot as plt 
     x = range(len(hist.history['accuracy']))
     plt.figure(figsize = (12,5))
     plt.subplot(1,2,1)
