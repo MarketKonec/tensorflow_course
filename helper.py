@@ -1,11 +1,11 @@
 def plot_model_evaluation(hist):
-'''
-Args:
-  
-hist: history object created during model.fit.
+    '''
+    Args:
 
-Plots loss and accuracy curves in separated charts. Assumes that validation sample was used.
-'''
+    hist: history object created during model.fit.
+
+    Plots loss and accuracy curves in separated charts. Assumes that validation sample was used.
+    '''
     x = range(len(hist.history['accuracy']))
     plt.figure(figsize = (12,5))
     plt.subplot(1,2,1)
