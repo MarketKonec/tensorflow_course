@@ -27,14 +27,14 @@ import tensorflow as tf
 import datetime
 
 def create_tensorboard_callback(dir_name, model_name):
-  '''
-  Creates callback to save model results to dir_name.
+    '''
+    Creates callback to save model results to dir_name.
 
-  Returns:
-  Callback
-  '''
-  log_dir = dir_name + '/' + model_name + datetime.datetime.now().strftime("_%Y%m%d-%H%M%S")
-  tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir = log_dir)
-  print(f'Saving tensorboard logfiles to {log_dir}')
-  return tensorboard_callback
+    Returns:
+    Callback
+    '''
+    log_dir = dir_name + '/' + model_name + datetime.datetime.now().strftime("_%Y%m%d-%H%M%S")
+    tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir = log_dir)
+    print(f'Saving tensorboard logfiles to {log_dir}')
+    return tensorboard_callback
     
