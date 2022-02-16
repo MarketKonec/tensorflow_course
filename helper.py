@@ -23,6 +23,7 @@ def plot_model_evaluation(hist):
     plt.legend()
     plt.show()
 
+
 import tensorflow as tf
 import datetime
 
