@@ -39,3 +39,28 @@ def create_tensorboard_callback(dir_name, model_name):
     print(f'Saving tensorboard logfiles to {log_dir}')
     return tensorboard_callback
     
+
+def compare_histories(orignal_hist, new_hist, initial_epochs = 5):
+    acc = orignal_hist.history['accuracy']
+    loss = orignal_hist.history['loss']
+    val_acc = orignal_hist.history['val_accuracy']
+    val_loss = orignal_hist.history['val_loss']
+
+    total_acc = acc + new_hist.history['accuracy']
+    total_loss = loss + new_hist.history['loss']
+    total_val_acc = val_acc + new_hist.history['val_accuracy']
+    total_val_loss = val_loss + new_hist.history['val_loss']
+
+    plt.figure(figsize = (8,8))
+    plt.subplot(2,1,1)
+    plt.plot(total_acc, label = "accuracy")
+    plt.plot(total_val_acc, label = "val_accuracy")
+    plt.plot([initial_epochs-1,initial_epochs-1], plt.ylim(), label = "start fine tuning")
+    plt.legend()
+
+    plt.figure(figsize = (8,8))
+    plt.subplot(2,1,2)
+    plt.plot(total_loss, label = "loss")
+    plt.plot(total_val_loss, label = "val_loss")
+    plt.plot([initial_epochs-1,initial_epochs-1], plt.ylim(), label = "start fine tuning")
+    plt.legend()
