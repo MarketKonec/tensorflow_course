@@ -64,3 +64,51 @@ def compare_histories(orignal_hist, new_hist, initial_epochs = 5):
     plt.plot(total_val_loss, label = "val_loss")
     plt.plot([initial_epochs-1,initial_epochs-1], plt.ylim(), label = "start fine tuning")
     plt.legend()
+
+
+from sklearn.metrics import confusion_matrix
+import numpy as np
+
+def plot_confusion_matrix(y,y_pred, label_description = None):
+    acc = sum(y_pred == y)/len(y)
+    print(f'Accuracy = {acc}')
+    
+    cm = confusion_matrix(y, y_pred.round() if len(y_pred[0]) == 1 else y_pred.argmax(axis = 1))
+  
+    if cm.shape[0] == 2:
+      tn, fn, tp, fp = cm[0,0], cm[1,0], cm[1,1], cm[0,1]
+      precision = tp/(tp+fp)
+      recall = tn/(tn+fn)
+      f1_score = 2*precision*recall/(precision+recall)
+      print(f'Precision (TP / AllP) = {(precision*100):.2f}%\nRecall (TN / AllN)= {(recall*100):.2f}%\nF1 Score = {(f1_score*100):.2f}%\n\n')
+
+#plot cm
+    figsize = (5,5) if len(y_pred[0]) == 1 else (14,14)
+    cm_perc = cm.astype('float')/cm.sum(axis=1)[:,np.newaxis]
+    fig, ax = plt.subplots(figsize = figsize)
+    cax = ax.matshow(cm, cmap = plt.cm.Blues)
+    fig.colorbar(cax)
+    labels = label_description if label_description is not None else np.arange(cm.shape[0])
+    ax.set(title = 'Confusion Matrix',
+           xlabel = 'Predicted',
+           ylabel = 'True',
+           xticks = np.arange(cm.shape[0]),
+           yticks = np.arange(cm.shape[0]),
+           xticklabels = labels,
+           yticklabels = labels)
+  
+    ax.xaxis.set_label_position('bottom')
+    ax.xaxis.tick_bottom()
+    ax.xaxis.label.set_size(15)
+    ax.yaxis.label.set_size(15)
+    ax.title.set_size(15)
+
+    threshold = (cm.max() + cm.min())/2
+
+    import itertools
+
+    for i,j in itertools.product(range(cm.shape[0]),range(cm.shape[0])):
+      plt.text(j,i, f'{cm[i,j]} ({cm_perc[i,j]*100:.1f}%)',
+               horizontalalignment = 'center',
+               color = 'white' if cm[i,j] > threshold else 'black',
+               size = 10)
