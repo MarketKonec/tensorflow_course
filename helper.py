@@ -70,10 +70,18 @@ from sklearn.metrics import confusion_matrix
 import numpy as np
 
 def plot_confusion_matrix(y,y_pred, label_description = None):
+    '''
+    Args:
+    y: true labels.
+    y_pred: predicted labels.
+    label_description: label description for confusion matrix plot.
+    
+    Returns accuracy and confusion matrix plot.
+    '''
     acc = sum(y_pred == y)/len(y)
     print(f'Accuracy = {acc}')
     
-    cm = confusion_matrix(y, y_pred.round() if len(y_pred[0]) == 1 else y_pred.argmax(axis = 1))
+    cm = confusion_matrix(y, y_pred)
   
     if cm.shape[0] == 2:
       tn, fn, tp, fp = cm[0,0], cm[1,0], cm[1,1], cm[0,1]
@@ -83,7 +91,7 @@ def plot_confusion_matrix(y,y_pred, label_description = None):
       print(f'Precision (TP / AllP) = {(precision*100):.2f}%\nRecall (TN / AllN)= {(recall*100):.2f}%\nF1 Score = {(f1_score*100):.2f}%\n\n')
 
 #plot cm
-    figsize = (5,5) if len(y_pred[0]) == 1 else (14,14)
+    figsize = (5,5) cm.shape[0] == 2 else (14,14)
     cm_perc = cm.astype('float')/cm.sum(axis=1)[:,np.newaxis]
     fig, ax = plt.subplots(figsize = figsize)
     cax = ax.matshow(cm, cmap = plt.cm.Blues)
