@@ -90,9 +90,9 @@ def plot_confusion_matrix(y, y_pred, label_description = None, text_size = 10, f
     if cm.shape[0] == 2:
         tn, fn, tp, fp = cm[0,0], cm[1,0], cm[1,1], cm[0,1]
         precision = tp/(tp+fp)
-        recall = tn/(tn+fn)
+        recall = tp/(tp+fn)
         f1_score = 2*precision*recall/(precision+recall)
-        print(f'Precision (TP / AllP) = {(precision*100):.2f}%\nRecall (TN / AllN)= {(recall*100):.2f}%\nF1 Score = {(f1_score*100):.2f}%\n\n')
+        print(f'Precision = {(precision*100):.2f}%\nRecall = {(recall*100):.2f}%\nF1 Score = {(f1_score*100):.2f}%\n\n')
 
 #plot cm
     cm_perc = cm.astype('float')/cm.sum(axis=1)[:,np.newaxis]
